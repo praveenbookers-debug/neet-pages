@@ -1,10 +1,739 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>NEET Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laws of Motion Quiz | ગતિના નિયમો ક્વિઝ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Nirmala UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #006064 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.97);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #0d47a1, #006064);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header h2 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+        
+        .language-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            gap: 10px;
+        }
+        
+        .lang-btn {
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .lang-btn.active {
+            background-color: #ffeb3b;
+            color: #0d47a1;
+            border-color: #ffeb3b;
+        }
+        
+        .instructions {
+            padding: 20px;
+            background-color: #e0f7fa;
+            margin: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .instructions h3 {
+            color: #006064;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #00acc1;
+            padding-bottom: 5px;
+        }
+        
+        .quiz-container {
+            padding: 20px;
+        }
+        
+        .question {
+            background-color: #f5f5f5;
+            border-left: 6px solid #006064;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #006064;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 15px;
+            background-color: white;
+            border: 2px solid #b2ebf2;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            background-color: #e0f7fa;
+            border-color: #00acc1;
+        }
+        
+        .option.selected {
+            background-color: #b2ebf2;
+            border-color: #006064;
+            font-weight: bold;
+        }
+        
+        .option.correct {
+            background-color: #c8e6c9;
+            border-color: #4caf50;
+        }
+        
+        .option.incorrect {
+            background-color: #ffcdd2;
+            border-color: #f44336;
+        }
+        
+        .option-label {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #006064;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #e0f7fa;
+            border-top: 2px solid #b2ebf2;
+        }
+        
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        #prev-btn {
+            background-color: #0097a7;
+            color: white;
+        }
+        
+        #prev-btn:hover:not(:disabled) {
+            background-color: #006064;
+        }
+        
+        #next-btn {
+            background-color: #006064;
+            color: white;
+        }
+        
+        #next-btn:hover:not(:disabled) {
+            background-color: #004d40;
+        }
+        
+        #submit-btn {
+            background-color: #4caf50;
+            color: white;
+            display: none;
+        }
+        
+        #submit-btn:hover {
+            background-color: #388e3c;
+        }
+        
+        button:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+        }
+        
+        .result-container {
+            padding: 30px;
+            text-align: center;
+            display: none;
+        }
+        
+        .result-container h2 {
+            color: #006064;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+        }
+        
+        .score {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #006064;
+            margin: 20px 0;
+        }
+        
+        .score-text {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .restart-btn {
+            background-color: #ff9800;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px 40px;
+        }
+        
+        .restart-btn:hover {
+            background-color: #f57c00;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .footer a {
+            color: #ffeb3b;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>NEET Site Working</h1>
-  <p>Your GitHub Pages is live.</p>
+    <div class="container">
+        <div class="header">
+            <h1 class="english">Laws of Motion Quiz</h1>
+            <h1 class="gujarati" style="display: none;">ગતિના નિયમો ક્વિઝ</h1>
+            
+            <h2 class="english">Test your knowledge of Newton's Laws</h2>
+            <h2 class="gujarati" style="display: none;">ન્યૂટનના નિયમોનું તમારું જ્ઞાન ચકાસો</h2>
+            
+            <div class="language-toggle">
+                <button class="lang-btn active" id="english-btn">English</button>
+                <button class="lang-btn" id="gujarati-btn">ગુજરાતી (Gujarati)</button>
+            </div>
+        </div>
+        
+        <div class="instructions english">
+            <h3>Instructions:</h3>
+            <p>1. This quiz contains 10 multiple-choice questions about the Laws of Motion.</p>
+            <p>2. Select your answer by clicking on one of the options.</p>
+            <p>3. You can navigate between questions using the Previous and Next buttons.</p>
+            <p>4. Click "Submit Quiz" when you've answered all questions to see your score.</p>
+            <p>5. Each correct answer gives you 1 point. Maximum score is 10.</p>
+        </div>
+        
+        <div class="instructions gujarati" style="display: none;">
+            <h3>સૂચનાઓ:</h3>
+            <p>1. આ ક્વિઝમાં ગતિના નિયમો વિશે 10 બહુવિકલ્પ પ્રશ્નો છે.</p>
+            <p>2. વિકલ્પોમાંથી એક પર ક્લિક કરીને તમારો જવાબ પસંદ કરો.</p>
+            <p>3. તમે પહેલા અને આગળના બટનોનો ઉપયોગ કરીને પ્રશ્નો વચ્ચે નેવિગેટ કરી શકો છો.</p>
+            <p>4. તમારા સ્કોર જોવા માટે બધા પ્રશ્નોના જવાબ આપ્યા પછી "ક્વિઝ સબમિટ કરો" પર ક્લિક કરો.</p>
+            <p>5. દરેક સાચા જવાબ માટે તમને 1 પોઈન્ટ મળે છે. મહત્તમ સ્કોર 10 છે.</p>
+        </div>
+        
+        <div class="quiz-container" id="quiz-container">
+            <!-- Questions will be loaded here by JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button id="prev-btn" disabled>Previous</button>
+            <button id="next-btn">Next</button>
+            <button id="submit-btn">Submit Quiz</button>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <h2 class="english">Quiz Results</h2>
+            <h2 class="gujarati" style="display: none;">ક્વિઝ પરિણામો</h2>
+            
+            <div class="score" id="score">0/10</div>
+            
+            <p class="score-text english" id="result-text">Your result will appear here</p>
+            <p class="score-text gujarati" style="display: none;" id="result-text-gujarati">તમારું પરિણામ અહીં દેખાશે</p>
+            
+            <button class="restart-btn english" id="restart-btn">Restart Quiz</button>
+            <button class="restart-btn gujarati" style="display: none;" id="restart-btn-gujarati">ક્વિઝ ફરી શરૂ કરો</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p class="english">Physics Quiz &copy; 2023 | Designed for educational purposes</p>
+        <p class="gujarati" style="display: none;">ફિઝિક્સ ક્વિઝ &copy; 2023 | શૈક્ષણિક હેતુઓ માટે ડિઝાઇન કરેલ</p>
+        <p class="english">Switch between English and Gujarati using the buttons above</p>
+        <p class="gujarati" style="display: none;">ઉપરના બટનોનો ઉપયોગ કરીને અંગ્રેજી અને ગુજરાતી વચ્ચે સ્વિચ કરો</p>
+    </div>
+
+    <script>
+        // Bilingual quiz data - English and Gujarati
+        const quizData = [
+            {
+                question: {
+                    english: "Who formulated the three laws of motion?",
+                    gujarati: "ગતિના ત્રણ નિયમો કોણે ઘડ્યા હતા?"
+                },
+                options: {
+                    english: ["Albert Einstein", "Galileo Galilei", "Isaac Newton", "Nikola Tesla"],
+                    gujarati: ["આલ્બર્ટ આઇન્સ્ટાઇન", "ગેલિલિયો ગેલિલી", "આઇઝેક ન્યૂટન", "નિકોલા ટેસ્લા"]
+                },
+                correct: 2
+            },
+            {
+                question: {
+                    english: "Newton's first law of motion is also known as:",
+                    gujarati: "ન્યૂટનનો ગતિનો પહેલો નિયમ આ રીતે પણ ઓળખાય છે:"
+                },
+                options: {
+                    english: ["Law of inertia", "Law of acceleration", "Law of action-reaction", "Law of gravity"],
+                    gujarati: ["જડતાનો નિયમ", "પ્રવેગનો નિયમ", "ક્રિયા-પ્રતિક્રિયાનો નિયમ", "ગુરુત્વાકર્ષણનો નિયમ"]
+                },
+                correct: 0
+            },
+            {
+                question: {
+                    english: "According to Newton's second law, force equals:",
+                    gujarati: "ન્યૂટનના બીજા નિયમ મુજબ, બળ બરાબર છે:"
+                },
+                options: {
+                    english: ["Mass times velocity (F = mv)", "Mass times acceleration (F = ma)", 
+                             "Velocity divided by time (F = v/t)", "Acceleration divided by mass (F = a/m)"],
+                    gujarati: ["દળ × વેગ (F = mv)", "દળ × પ્રવેગ (F = ma)", 
+                             "વેગ ÷ સમય (F = v/t)", "પ્રવેગ ÷ દળ (F = a/m)"]
+                },
+                correct: 1
+            },
+            {
+                question: {
+                    english: "If an object is at rest, it will remain at rest unless acted upon by an unbalanced force. This is a statement of:",
+                    gujarati: "જો કોઈ પદાર્થ આરામ પર હોય, તો તે આરામ પર રહેશે જ્યાં સુધી તેના પર અસંતુલિત બળ દ્વારા કાર્ય કરવામાં ન આવે. આ નીચેના નિયમનું નિવેદન છે:"
+                },
+                options: {
+                    english: ["Newton's first law", "Newton's second law", 
+                             "Newton's third law", "The law of conservation of energy"],
+                    gujarati: ["ન્યૂટનનો પહેલો નિયમ", "ન્યૂટનનો બીજો નિયમ", 
+                             "ન્યૂટનનો ત્રીજો નિયમ", "ઊર્જાના સંરક્ષણનો નિયમ"]
+                },
+                correct: 0
+            },
+            {
+                question: {
+                    english: "Newton's third law states that for every action, there is:",
+                    gujarati: "ન્યૂટનનો ત્રીજો નિયમ જણાવે છે કે દરેક ક્રિયા માટે, હોય છે:"
+                },
+                options: {
+                    english: ["An equal and opposite reaction", "A greater and opposite force", 
+                             "An equal force in the same direction", "No reaction if the object is heavy"],
+                    gujarati: ["સમાન અને વિરુદ્ધ પ્રતિક્રિયા", "મોટી અને વિરુદ્ધ બળ", 
+                             "સમાન દિશામાં સમાન બળ", "પદાર્થ ભારે હોય તો કોઈ પ્રતિક્રિયા નહીં"]
+                },
+                correct: 0
+            },
+            {
+                question: {
+                    english: "In the equation F = ma, if the mass is doubled and the force remains the same, what happens to acceleration?",
+                    gujarati: "સમીકરણ F = ma માં, જો દળ બમણું કરવામાં આવે અને બળ સમાન રહે, તો પ્રવેગ શું થાય છે?"
+                },
+                options: {
+                    english: ["Doubles", "Halves", "Stays the same", "Quadruples"],
+                    gujarati: ["બમણો થાય છે", "અડધો થાય છે", "સમાન રહે છે", "ચાર ગણો થાય છે"]
+                },
+                correct: 1
+            },
+            {
+                question: {
+                    english: "When a rocket propels itself upward by expelling gas downward, which law best explains this?",
+                    gujarati: "જ્યારે રોકેટ નીચે તરફ ગેસને બહાર કાઢીને પોતાને ઉપરની તરફ ધકેલે છે, તો આને શ્રેષ્ઠ રીતે કયો નિયમ સમજાવે છે?"
+                },
+                options: {
+                    english: ["Newton's first law", "Newton's second law", 
+                             "Newton's third law", "Law of universal gravitation"],
+                    gujarati: ["ન્યૂટનનો પહેલો નિયમ", "ન્યૂટનનો બીજો નિયમ", 
+                             "ન્યૂટનનો ત્રીજો નિયમ", "સાર્વત્રિક ગુરુત્વાકર્ષણનો નિયમ"]
+                },
+                correct: 2
+            },
+            {
+                question: {
+                    english: "The tendency of an object to resist changes in its state of motion is called:",
+                    gujarati: "તેની ગતિની સ્થિતિમાં ફેરફારોનો વિરોધ કરવાની પદાર્થની વલણને કહેવામાં આવે છે:"
+                },
+                options: {
+                    english: ["Acceleration", "Momentum", "Inertia", "Force"],
+                    gujarati: ["પ્રવેગ", "સંભવ", "જડતા", "બળ"]
+                },
+                correct: 2
+            },
+            {
+                question: {
+                    english: "Which law explains why a passenger lurches forward when a moving car suddenly stops?",
+                    gujarati: "જ્યારે એક ફરતી કાર અચાનક અટકે છે ત્યારે એક મુસાફર આગળ ધકેલાય છે તે શા માટે થાય છે તે સમજાવે છે?"
+                },
+                options: {
+                    english: ["Newton's first law", "Newton's second law", 
+                             "Newton's third law", "Law of conservation of momentum"],
+                    gujarati: ["ન્યૂટનનો પહેલો નિયમ", "ન્યૂટનનો બીજો નિયમ", 
+                             "ન્યૂટનનો ત્રીજો નિયમ", "સંભવના સંરક્ષણનો નિયમ"]
+                },
+                correct: 0
+            },
+            {
+                question: {
+                    english: "If you push on a wall with a force of 50 N, how much force does the wall exert back on you?",
+                    gujarati: "જો તમે 50 N ના બળ સાથે દિવાલ પર દબાણ કરો છો, તો દિવાલ તમારા પર કેટલું બળ લાગુ કરે છે?"
+                },
+                options: {
+                    english: ["0 N", "25 N", "50 N", "100 N"],
+                    gujarati: ["0 N", "25 N", "50 N", "100 N"]
+                },
+                correct: 2
+            }
+        ];
+
+        // Current language (default: English)
+        let currentLanguage = 'english';
+        
+        // DOM elements
+        const quizContainer = document.getElementById('quiz-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultContainer = document.getElementById('result-container');
+        const scoreElement = document.getElementById('score');
+        const resultText = document.getElementById('result-text');
+        const resultTextGujarati = document.getElementById('result-text-gujarati');
+        const restartBtn = document.getElementById('restart-btn');
+        const restartBtnGujarati = document.getElementById('restart-btn-gujarati');
+        
+        // Language buttons
+        const englishBtn = document.getElementById('english-btn');
+        const gujaratiBtn = document.getElementById('gujarati-btn');
+        
+        // Quiz state
+        let currentQuestion = 0;
+        let userAnswers = Array(quizData.length).fill(null);
+        let quizSubmitted = false;
+        
+        // Initialize quiz
+        function initQuiz() {
+            loadQuestion();
+            updateButtons();
+            
+            // Add event listeners to language buttons
+            englishBtn.addEventListener('click', () => switchLanguage('english'));
+            gujaratiBtn.addEventListener('click', () => switchLanguage('gujarati'));
+            
+            // Add event listeners to navigation buttons
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', showNextQuestion);
+            submitBtn.addEventListener('click', submitQuiz);
+            restartBtn.addEventListener('click', restartQuiz);
+            restartBtnGujarati.addEventListener('click', restartQuiz);
+        }
+        
+        // Load current question
+        function loadQuestion() {
+            const questionData = quizData[currentQuestion];
+            
+            // Create question HTML
+            const questionHTML = `
+                <div class="question">
+                    <div class="question-number">
+                        <span class="english">Question ${currentQuestion + 1} of ${quizData.length}</span>
+                        <span class="gujarati" style="display: none;">પ્રશ્ન ${currentQuestion + 1} / ${quizData.length}</span>
+                    </div>
+                    <div class="question-text english">${questionData.question.english}</div>
+                    <div class="question-text gujarati" style="display: none;">${questionData.question.gujarati}</div>
+                    <div class="options">
+                        ${questionData.options[currentLanguage].map((option, index) => `
+                            <div class="option ${userAnswers[currentQuestion] === index ? 'selected' : ''} 
+                                ${quizSubmitted ? (index === questionData.correct ? 'correct' : (userAnswers[currentQuestion] === index ? 'incorrect' : '')) : ''}" 
+                                data-index="${index}">
+                                <span class="option-label">${String.fromCharCode(65 + index)}</span>
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            quizContainer.innerHTML = questionHTML;
+            
+            // Add event listeners to options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+            
+            // Update language display for current question
+            updateLanguageDisplay();
+        }
+        
+        // Select an option
+        function selectOption(event) {
+            if (quizSubmitted) return;
+            
+            const optionIndex = parseInt(event.currentTarget.getAttribute('data-index'));
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // Update UI
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            event.currentTarget.classList.add('selected');
+            
+            // Enable submit button if all questions are answered
+            if (userAnswers.every(answer => answer !== null)) {
+                submitBtn.style.display = 'inline-block';
+            }
+        }
+        
+        // Show previous question
+        function showPreviousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+                updateButtons();
+            }
+        }
+        
+        // Show next question
+        function showNextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+                updateButtons();
+            }
+        }
+        
+        // Update navigation buttons
+        function updateButtons() {
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.style.display = 'none';
+                if (userAnswers.every(answer => answer !== null)) {
+                    submitBtn.style.display = 'inline-block';
+                }
+            } else {
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+            }
+            
+            // Update button texts based on language
+            updateButtonTexts();
+        }
+        
+        // Update button texts based on current language
+        function updateButtonTexts() {
+            if (currentLanguage === 'english') {
+                prevBtn.textContent = 'Previous';
+                nextBtn.textContent = 'Next';
+                submitBtn.textContent = 'Submit Quiz';
+            } else {
+                prevBtn.textContent = 'પહેલાનું';
+                nextBtn.textContent = 'આગળ';
+                submitBtn.textContent = 'ક્વિઝ સબમિટ કરો';
+            }
+        }
+        
+        // Switch between English and Gujarati
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            englishBtn.classList.toggle('active', lang === 'english');
+            gujaratiBtn.classList.toggle('active', lang === 'gujarati');
+            
+            // Update all text elements
+            updateLanguageDisplay();
+            
+            // Reload current question with new language
+            loadQuestion();
+        }
+        
+        // Update language display for all elements
+        function updateLanguageDisplay() {
+            // Show/hide English and Gujarati elements
+            document.querySelectorAll('.english').forEach(el => {
+                el.style.display = currentLanguage === 'english' ? 'block' : 'none';
+            });
+            
+            document.querySelectorAll('.gujarati').forEach(el => {
+                el.style.display = currentLanguage === 'gujarati' ? 'block' : 'none';
+            });
+            
+            // Update button texts
+            updateButtonTexts();
+        }
+        
+        // Submit quiz and show results
+        function submitQuiz() {
+            quizSubmitted = true;
+            
+            // Calculate score
+            let score = 0;
+            quizData.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    score++;
+                }
+            });
+            
+            // Display results
+            quizContainer.style.display = 'none';
+            document.querySelector('.controls').style.display = 'none';
+            resultContainer.style.display = 'block';
+            
+            // Update score and result text
+            scoreElement.textContent = `${score}/${quizData.length}`;
+            
+            // Set result message based on score
+            let message = '';
+            let messageGujarati = '';
+            
+            if (score === quizData.length) {
+                message = 'Perfect! You have a complete understanding of the Laws of Motion!';
+                messageGujarati = 'ઉત્તમ! તમને ગતિના નિયમોની સંપૂર્ણ સમજ છે!';
+            } else if (score >= quizData.length * 0.8) {
+                message = 'Excellent! You have a strong grasp of the Laws of Motion.';
+                messageGujarati = 'શાણું! તમને ગતિના નિયમોની મજબૂત પકડ છે.';
+            } else if (score >= quizData.length * 0.6) {
+                message = 'Good job! You understand the basic concepts well.';
+                messageGujarati = 'સારું કામ! તમે મૂળભૂત ખ્યાલોને સારી રીતે સમજો છો.';
+            } else if (score >= quizData.length * 0.4) {
+                message = 'Fair. You might want to review the Laws of Motion again.';
+                messageGujarati = 'સરસ. તમે ગતિના નિયમોની ફરી સમીક્ષા કરવાનું વિચારી શકો છો.';
+            } else {
+                message = 'Keep studying! Review the Laws of Motion and try again.';
+                messageGujarati = 'અભ્યાસ ચાલુ રાખો! ગતિના નિયમોની સમીક્ષા કરો અને ફરી પ્રયાસ કરો.';
+            }
+            
+            resultText.textContent = message;
+            resultTextGujarati.textContent = messageGujarati;
+        }
+        
+        // Restart quiz
+        function restartQuiz() {
+            // Reset quiz state
+            currentQuestion = 0;
+            userAnswers = Array(quizData.length).fill(null);
+            quizSubmitted = false;
+            
+            // Reset UI
+            quizContainer.style.display = 'block';
+            document.querySelector('.controls').style.display = 'flex';
+            resultContainer.style.display = 'none';
+            
+            // Reload first question
+            loadQuestion();
+            updateButtons();
+        }
+        
+        // Initialize the quiz when page loads
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
 </body>
 </html>
